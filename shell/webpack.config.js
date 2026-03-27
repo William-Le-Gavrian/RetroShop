@@ -7,11 +7,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
-    publicPath: 'http://localhost:3005/',
+    publicPath: 'http://localhost:3000/',
     clean: true,
   },
   devServer: {
-    port: 3005,
+    port: 3000,
     hot: true,
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
