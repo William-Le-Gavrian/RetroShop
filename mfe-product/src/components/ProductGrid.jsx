@@ -20,7 +20,7 @@ function ProductCard({ product, onAdd }) {
 
 function ProductGrid() {
   const handleAdd = (product) => {
-    eventBus.emit('ADD_TO_CART', product);
+    eventBus.emit('PRODUCT_ADDED', product);
     console.log(`Produit ajouté : ${product.name}`);
   };
 

@@ -1,7 +1,10 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import './App.css';
+import eventBus from 'shared/eventBus';
 
-// TODO: importer les 3 MFEs avec React.lazy()
+const ProductGrid = lazy(() => import('mfeProduct/./ProductGrid'));
+const Cart = lazy(() => import('mfeCart/./Lobby'));
+const Recommendations = lazy(() => import('mfeReco/./Recommendations'));
 
 function LoadingFallback({ name }) {
   return <div className="loading-fallback">Chargement {name}...</div>;
@@ -11,7 +14,10 @@ function App() {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    // TODO: ecouter les mises a jour du panier pour le badge
+    const unsubscribe = eventBus.on('CART_UPDATED', (items) => {
+      setCartCount(items.length);
+    });
+    return unsubscribe;
   }, []);
 
   return (
@@ -22,17 +28,20 @@ function App() {
       </header>
       <main className="shell-main">
         <section className="product-area">
-          {/* TODO: afficher mfe-product avec Suspense */}
-          <LoadingFallback name="Products" />
+          <Suspense fallback={<LoadingFallback name="Products" />}>
+            <ProductGrid />
+          </Suspense>
         </section>
         <aside className="cart-area">
-          {/* TODO: afficher mfe-cart avec Suspense */}
-          <LoadingFallback name="Cart" />
+          <Suspense fallback={<LoadingFallback name="Cart" />}>
+            <Cart />
+          </Suspense>
         </aside>
       </main>
       <section className="reco-area">
-        {/* TODO: afficher mfe-reco avec Suspense */}
-        <LoadingFallback name="Recommendations" />
+        <Suspense fallback={<LoadingFallback name="Recommendations" />}>
+          <Recommendations />
+        </Suspense>
       </section>
     </div>
   );

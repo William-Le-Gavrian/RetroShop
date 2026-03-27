@@ -7,11 +7,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
-    publicPath: 'http://localhost:3000/',
+    publicPath: 'http://localhost:3005/',
     clean: true,
   },
   devServer: {
-    port: 3000,
+    port: 3005,
     hot: true,
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
@@ -43,8 +43,11 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'shell',
-      // TODO: declarer les 3 MFEs comme remotes
-      remotes: {},
+      remotes: {
+        mfeProduct: 'mfeProduct@http://localhost:3001/remoteEntry.js',
+        mfeCart: 'mfeCart@http://localhost:3002/remoteEntry.js',
+        mfeReco: 'mfeReco@http://localhost:3003/remoteEntry.js',
+      },
       shared: {
         react: { singleton: true, requiredVersion: '^18.2.0' },
         'react-dom': { singleton: true, requiredVersion: '^18.2.0' },
