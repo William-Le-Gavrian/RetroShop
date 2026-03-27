@@ -4,8 +4,12 @@ import eventBus from 'shared/eventBus';
 
 const ProductGrid = lazy(() => import('mfeProduct/./ProductGrid'));
 const Cart = lazy(() => import('mfeCart/./Lobby'));
-const Recommendations = lazy(() => import('mfeReco/./Recommendations'));
-
+const Recommendations = lazy(() =>
+    import('mfeReco/./Recommendations').catch((err) => {
+        console.error("MFE Recommendations indisponible:", err);
+        return new Promise(() => {});
+    })
+);
 function LoadingFallback({ name }) {
   return <div className="loading-fallback">Chargement {name}...</div>;
 }
